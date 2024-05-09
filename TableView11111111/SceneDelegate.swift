@@ -10,13 +10,40 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//              
+//              window = UIWindow(windowScene: windowScene)
+//              window?.rootViewController = ViewController()
+//              window?.makeKeyAndVisible()
+        
+        guard let scene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(frame: scene.coordinateSpace.bounds)
+        window?.windowScene = scene
+        
+        
+        let tabBarVC = UITabBarController()
+        let firstVC = FirstViewController()
+        let secondVC = SecondViewController()
+        
+        let nav1 = UINavigationController(rootViewController: firstVC)
+        let nav2 = UINavigationController(rootViewController: secondVC)
+        
+        nav1.navigationBar.topItem?.title = "First VC"
+        nav2.navigationBar.topItem?.title = "Second VC"
+        
+        nav1.tabBarItem = UITabBarItem(title: "검색 탭", image: UIImage(systemName: "folder"), tag: 0)
+        nav2.tabBarItem = UITabBarItem(title: "담은 책 리스트 탭", image: UIImage(systemName: "book"), tag: 1)
+        
+        tabBarVC.setViewControllers([nav1, nav2], animated: true)
+        
+        window?.rootViewController = tabBarVC
+        window?.makeKeyAndVisible()
+        
+      
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
